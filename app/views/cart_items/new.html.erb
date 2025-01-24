@@ -1,0 +1,17 @@
+<h1>カートに入れる</h1>
+<p>商品名: <%= @product.name %></p>
+<p>価格: <%= @product.price %>円</p>
+
+<%= form_with url: cart_items_path, local: true do |f| %>
+  <!-- product_id を隠しフィールドで送る -->
+  <%= hidden_field_tag "cart_item[product_id]", @product.id %>
+
+  <div>
+    <label for="quantity">数量</label>
+    <%= number_field_tag "cart_item[quantity]", 1, min: 1 %>
+  </div>
+
+  <%= f.submit "カートに追加" %>
+<% end %>
+
+<%= link_to "戻る", products_path %>

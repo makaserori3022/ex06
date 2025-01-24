@@ -1,0 +1,35 @@
+<h1>カート内容</h1>
+<% if @cart.cart_items.any? %>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>商品名</th>
+      <th>価格</th>
+      <th>数量</th>
+      <th>小計</th>
+      <th>操作</th>
+    </tr>
+    <% total_price = 0 %>
+    <% @cart.cart_items.each do |item| %>
+      <% sub_total = item.product.price * item.quantity %>
+      <% total_price += sub_total %>
+      <tr>
+        <td><%= item.id %></td>
+        <td><%= item.product.name %></td>
+        <td><%= item.product.price %>円</td>
+        <td><%= item.quantity %></td>
+        <td><%= sub_total %>円</td>
+        <td>
+          <%= link_to "削除", cart_item_path(item), method: :delete,
+                      data: { confirm: "カートから削除しますか？"} %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <p>合計金額: <%= total_price %>円</p>
+  <p><%= link_to "商品一覧へ戻る", products_path %></p>
+<% else %>
+  <p>カートは空です。</p>
+  <%= link_to "商品一覧へ戻る", products_path %>
+<% end %>
